@@ -1,0 +1,7 @@
+body {
+  font-family: sans-serif;
+}
+nav {
+  display: flex;
+  gap: 1rem;
+}
