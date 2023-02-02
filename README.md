@@ -1,5 +1,12 @@
 # Remix Hydration Fix
 
+## 📦 TLDR;
+
+[@Xiphe](https://github.com/Xiphe) has wrapped this up in a nice package [remix-island](
+https://github.com/Xiphe/remix-island). Definitely check it out!
+
+## 😱 WTH (What The Hydration⁉️)
+
 One of the main selling points of Remix is that you own the entire HTML document.
 This is both a blessing and a curse. On one hand, you have complete control of
 your rendered document.
