@@ -2,8 +2,13 @@
 
 ## 📦 TLDR;
 
-[@Xiphe](https://github.com/Xiphe) has wrapped this up in a nice package [remix-island](
-https://github.com/Xiphe/remix-island). Definitely check it out!
+[@Xiphe](https://github.com/Xiphe) has wrapped this up in a nice package [remix-island](https://github.com/Xiphe/remix-island). Definitely check it out!
+
+## 👀 View Sample on StackBlitz ⚡️
+
+https://remixhydrationfix-3ixu--3000.local-credentialless.webcontainer.io/
+
+https://stackblitz.com/~/github.com/kiliman/remix-hydration-fix
 
 ## 😱 WTH (What The Hydration⁉️)
 
