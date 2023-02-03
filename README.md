@@ -4,6 +4,10 @@
 
 [@Xiphe](https://github.com/Xiphe) has wrapped this up in a nice package [remix-island](https://github.com/Xiphe/remix-island). Definitely check it out!
 
+👀 View Sample App
+
+I have a running sample at https://remix-hydration-fix-production.up.railway.app
+
 ## 😱 WTH (What The Hydration⁉️)
 
 One of the main selling points of Remix is that you own the entire HTML document.
