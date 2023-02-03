@@ -1,4 +1,4 @@
-import type { EntryContext } from "@remix-run/node";
+import type { EntryContext, RouteComponent } from "@remix-run/node";
 import { Response } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
@@ -14,22 +14,15 @@ export default function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  const callbackName = isbot(request.headers.get('user-agent')) ? 'onAllReady' : 'onShellReady'
+  const callbackName = isbot(request.headers.get("user-agent"))
+    ? "onAllReady"
+    : "onShellReady";
 
-  // swap out default component with <Head>
-  const defaultRoot = remixContext.routeModules.root;
-  remixContext.routeModules.root = {
-    ...defaultRoot,
-    default: Head,
-  };
-
+  // create new context renders only <Head> and does not render errors
+  let headContext = switchRootComponent(remixContext, Head);
   let head = renderToString(
-    <RemixServer context={remixContext} url={request.url} />
+    <RemixServer context={headContext} url={request.url} />
   );
-
-  // restore the default root component
-  remixContext.routeModules.root = defaultRoot;
-
   return new Promise((resolve, reject) => {
     let didError = false;
 
@@ -67,4 +60,33 @@ export default function handleRequest(
 
     setTimeout(abort, ABORT_DELAY);
   });
+}
+
+export function switchRootComponent(
+  remixContext: EntryContext,
+  Head: RouteComponent
+): EntryContext {
+  let serverHandoffString = remixContext.serverHandoffString;
+  if (serverHandoffString) {
+    let serverHandoff = JSON.parse(serverHandoffString);
+    // remove errors from JSON string
+    delete serverHandoff.state.errors;
+    serverHandoffString = JSON.stringify(serverHandoff);
+  }
+
+  return {
+    ...remixContext,
+    serverHandoffString,
+    staticHandlerContext: {
+      ...remixContext.staticHandlerContext,
+      errors: null, // remove errors from context
+    },
+    routeModules: {
+      ...remixContext.routeModules,
+      root: {
+        ...remixContext.routeModules.root,
+        default: Head,
+      },
+    },
+  };
 }

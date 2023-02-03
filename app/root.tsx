@@ -38,11 +38,36 @@ export default function App() {
         <NavLink to="/">Home</NavLink>
         <NavLink to="/test">Test</NavLink>
         <NavLink to="/defer">Defer</NavLink>
+        <NavLink to="/not-found">Not Found</NavLink>
+        <NavLink to="/error">Error Route</NavLink>
       </nav>
       <Outlet />
       <ScrollRestoration />
       <Scripts />
       <LiveReload />
     </>
+  );
+}
+
+export function CatchBoundary() {
+  return (
+    <div>
+      <h1>This is a catch boundary!</h1>
+      <p>
+        <a href="/">Go back home</a>
+      </p>
+    </div>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <div>
+      <h1>{error.message}</h1>
+      <pre>{error.stack}</pre>
+      <p>
+        <a href="/">Go back home</a>
+      </p>
+    </div>
   );
 }
