@@ -1,10 +1,10 @@
 # Remix Hydration Fix
 
-## 📦 TLDR;
+## 📦 TL;DR
 
 [@Xiphe](https://github.com/Xiphe) has wrapped this up in a nice package [remix-island](https://github.com/Xiphe/remix-island). Definitely check it out!
 
-👀 View Sample App
+## 👀 View Sample App
 
 I have a running sample at https://remix-hydration-fix-production.up.railway.app
 
