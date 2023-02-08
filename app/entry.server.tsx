@@ -5,6 +5,7 @@ import isbot from "isbot";
 import { renderToPipeableStream, renderToString } from "react-dom/server";
 import { PassThrough } from "stream";
 import { Head } from "~/root";
+import globalCss from "~/styles/global.css";
 
 const ABORT_DELAY = 5000;
 
@@ -20,9 +21,15 @@ export default function handleRequest(
 
   // create new context renders only <Head> and does not render errors
   let headContext = switchRootComponent(remixContext, Head);
+
   let head = renderToString(
     <RemixServer context={headContext} url={request.url} />
   );
+  // for some reason 404 doesn't render <Head> so we need to add the global css
+  if (!head) {
+    head = `<link rel="stylesheet" href="${globalCss}" />`;
+  }
+
   return new Promise((resolve, reject) => {
     let didError = false;
 
@@ -40,10 +47,8 @@ export default function handleRequest(
               status: didError ? 500 : responseStatusCode,
             })
           );
-
-          body.write(
-            `<!DOCTYPE html><html><head><!--start head-->${head}<!--end head--></head><body><div id="root">`
-          );
+          const html = `<!DOCTYPE html><html><head><!--start head-->${head}<!--end head--></head><body><div id="root">`;
+          body.write(html);
           pipe(body);
           body.write(`</div></body></html>`);
         },
@@ -70,7 +75,7 @@ export function switchRootComponent(
   if (serverHandoffString) {
     let serverHandoff = JSON.parse(serverHandoffString);
     // remove errors from JSON string
-    delete serverHandoff.state.errors;
+    delete serverHandoff?.state?.errors;
     serverHandoffString = JSON.stringify(serverHandoff);
   }
 
